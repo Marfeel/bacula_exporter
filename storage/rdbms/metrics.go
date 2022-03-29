@@ -62,7 +62,7 @@ func (db *DB) GetJobsSummary() ([]*BaculaJobSummary, error) {
                       FROM
                             Job
                       WHERE
-                            SchedTime = DATE(NOW())
+                            DATE(SchedTime) = DATE(NOW())
                 )
           GROUP BY
                 Name,
