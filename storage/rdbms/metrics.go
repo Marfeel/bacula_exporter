@@ -11,11 +11,11 @@ func (db *DB) GetLatestJobs() ([]*BaculaJob, error) {
 		t.Name,
                 t.Level,
                 t.JobStatus,
-                coalesce(extract(epoch from t.SchedTime), 0)::integer as SchedTime,
-                coalesce(extract(epoch from t.StartTime), 0)::integer as StartTime,
-                coalesce(extract(epoch from t.EndTime), 0)::integer as EndTime,
-                t.JobBytes::bigint,
-                t.JobFiles::bigint
+                unix_timestamp(t.SchedTime) as SchedTime,
+                unix_timestamp(t.StartTime) as StartTime,
+                unix_timestamp(t.EndTime) as EndTime,
+                cast(t.JobBytes AS UNSIGNED INTEGER) as JobBytes,
+                cast(t.JobFiles AS UNSIGNED INTEGER) as JobFiles
           FROM
                 Job t
           INNER JOIN (
@@ -51,8 +51,8 @@ func (db *DB) GetJobsSummary() ([]*BaculaJobSummary, error) {
           SELECT
                 Name,
                 Level,
-                SUM(JobBytes)::bigint as TotalJobBytes,
-                SUM(JobFiles)::bigint as TotalJobFiles
+                cast(SUM(JobBytes) AS UNSIGNED INTEGER) as TotalJobBytes,
+                cast(SUM(JobFiles) AS UNSIGNED INTEGER) as TotalJobFiles
           FROM
                 Job
           WHERE
@@ -62,7 +62,7 @@ func (db *DB) GetJobsSummary() ([]*BaculaJobSummary, error) {
                       FROM
                             Job
                       WHERE
-                            SchedTime::date = DATE(NOW())
+                            SchedTime = DATE(NOW())
                 )
           GROUP BY
                 Name,

@@ -16,7 +16,7 @@ import (
 	"pkg.re/essentialkaos/ek.v12/signal"
 	"pkg.re/essentialkaos/ek.v12/usage"
 
-	rdbms "github.com/funbox/bacula_exporter/storage/rdbms"
+	rdbms "github.com/Marfeel/bacula_exporter/storage/rdbms"
 	knfv "pkg.re/essentialkaos/ek.v12/knf/validators"
 	knff "pkg.re/essentialkaos/ek.v12/knf/validators/fs"
 
@@ -66,7 +66,7 @@ const (
 
 // DB info
 const (
-	DB_FORMAT = "user=%s password=%s host=%s port=%s dbname=%s sslmode=%s"
+	DB_FORMAT = "%s:%s@(%s:%s)/%s"
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -126,7 +126,6 @@ func Init() {
 
 	log.Aux(strings.Repeat("-", 88))
 	log.Aux("%s %s starting...", APP, VER)
-
 	start()
 }
 
@@ -212,7 +211,6 @@ func buildConnectionString() string {
 		knf.GetS(DB_HOST),
 		knf.GetS(DB_PORT),
 		knf.GetS(DB_NAME),
-		knf.GetS(DB_SSLMODE),
 	)
 }
 
