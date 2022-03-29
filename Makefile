@@ -12,7 +12,7 @@
 
 ################################################################################
 
-DOCKER_IMAGE = funbox/bacula_exporter
+DOCKER_IMAGE = Marfeel/bacula_exporter
 VERSION := 1.1.0
 BUMPVERSION_PART ?= patch
 

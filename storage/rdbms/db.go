@@ -3,8 +3,8 @@ package rdbms
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 import (
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
-	_ "github.com/lib/pq"
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -12,6 +12,7 @@ import (
 // Enumerated list of available database providers. Reserved for future.
 const (
 	POSTGRES = "postgres"
+	MYSQL    = "mysql"
 )
 
 // Datastore interface to models
@@ -32,7 +33,7 @@ type DB struct {
 
 // NewDB create new DB struct by datasource connection string with given provider
 func NewDB(datasource string) (*DB, error) {
-	db, err := sqlx.Open(POSTGRES, datasource)
+	db, err := sqlx.Open(MYSQL, datasource)
 
 	if err != nil {
 		return nil, err
