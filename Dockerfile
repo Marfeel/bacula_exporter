@@ -3,7 +3,7 @@ RUN apt-get update && \
     apt-get install -y upx
 WORKDIR /go/src/github.com/Marfeel/bacula_exporter
 ENV GOPATH=/go/
-ENV TEST=2
+
 COPY . .
 RUN make clean && make bacula_exporter && make compress
 
